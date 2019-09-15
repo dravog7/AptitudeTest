@@ -1,30 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-
-
-    {{ quiz }}
-
-<br>
+{% extends 'base.html' %}
+    {% block title %}{{ quiz }} {% endblock %}
+{% block link %}
+<style>
+    form input[type='radio']{
+        width: auto;
+    }
+</style>
+{% endblock %}
+{% block body %}
 <form method="post" action="{%  url 'score'  quiz=quiz %}">
     {% csrf_token %}
     {% for question in questions %}
+    <div>
         {{ question.text }}
         <br>
         {%  for option in options %}
             {% if question.id == option.question_id %}
-                <input  type="radio" name="score-{{question.id}}" value="{{ option.id }}">{{ option.value }}<br>
-                <br>
+                <div>
+                    <label>
+                        <input  type="radio" name="score-{{question.id}}" value="{{ option.id }}">{{ option.value }}
+                    </label>
+                </div>
             {% endif %}
         {% endfor %}
+    </div>
     {% endfor %}
     <input type="submit">
 </form>
-
-</body>
-</html>
+{% endblock %}
