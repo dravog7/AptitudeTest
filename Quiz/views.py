@@ -73,15 +73,16 @@ def score(request,quiz):
                         result=result['is_correct']
                     Profile_inst=Profile.objects.get(user=user)
                     new_tuple = Answers(user=Profile_inst, question_id=int(question_id),option_id= val,right=result)
+                    new_tuple.save()
                     if result==True:
                         points=Question.objects.filter(id=question_id).values('score')
                         for point in points:
                             total=total+point['score']
-                    Profile_inst = Profile.objects.get(user=user)
-                    quiz_inst=Quiz.objects.get(name=quiz)
-                    new_result=Result(profile=Profile_inst,quiz=quiz_inst,score=total)
-                    new_result.save()
-                    new_tuple.save()
+
+                Profile_inst = user.Profile
+                quiz_inst=Quiz.objects.get(name=quiz)
+                new_result=Result(profile=Profile_inst,quiz=quiz_inst,score=total)
+                new_result.save()
                 return HttpResponse(template.render())
 
             print('total:', total)

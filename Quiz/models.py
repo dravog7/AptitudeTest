@@ -19,13 +19,13 @@ class Quiz(models.Model):
 class Question(models.Model):
     text=models.TextField()
     score=models.IntegerField(default=1)
-    quiz=models.ForeignKey(Quiz,on_delete=models.CASCADE)
+    quiz=models.ForeignKey(Quiz,on_delete=models.CASCADE,related_name="questions")
 
     def __str__(self):
         return self.text
 
 class Option(models.Model):
-    question=models.ForeignKey(Question,on_delete=models.CASCADE)
+    question=models.ForeignKey(Question,on_delete=models.CASCADE,related_name="options")
     value=models.CharField(max_length=1200)
     is_correct=models.BooleanField(default=False)
 

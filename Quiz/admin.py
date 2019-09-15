@@ -16,6 +16,7 @@ class QuestionAdmin(NestedStackedInline):
 
 
 class QuizAdmin(NestedModelAdmin):
+    model = Quiz
     inlines = [QuestionAdmin,]
 
 
