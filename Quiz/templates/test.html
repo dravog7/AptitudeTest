@@ -5,26 +5,49 @@
     form input[type='radio']{
         width: auto;
     }
+    .carousel-control-prev-icon {
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23aaa' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23aaa' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block body %}
 <form method="post" action="{%  url 'score'  quiz=quiz %}">
     {% csrf_token %}
-    {% for question in questions %}
-    <div>
-        {{ question.text }}
-        <br>
-        {%  for option in options %}
-            {% if question.id == option.question_id %}
-                <div>
-                    <label>
-                        <input  type="radio" name="score-{{question.id}}" value="{{ option.id }}">{{ option.value }}
-                    </label>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
+    <div id="demo" class="carousel slide" data-interval="false" data-wrap="false">
+    <div class="carousel-inner">
+        {% for question in questions %}
+        <div class="carousel-item {% if forloop.counter == 1 %}active {% endif %}">
+        <div class="card" style="width: 50%;margin:0 auto;">
+            <div class="card-header">{{ question.text }}</div>
+            <div class="card-body">
+            {%  for option in options %}
+                {% if question.id == option.question_id %}
+                    <div>
+                        <label>
+                            <input  type="radio" name="score-{{question.id}}" value="{{ option.id }}">{{ option.value }}
+                        </label>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+        </div>
     {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </a>
+    </div>
     <input type="submit">
 </form>
 {% endblock %}
